@@ -1,0 +1,14 @@
+### List Usuario
+GET HTTP://localhost:3000/usuario
+
+### Get Usuario
+GET HTTP://localhost:3000/usuario/1
+
+### Create Usuario
+POST  HTTP://localhost:3000/usuario/2
+
+### Update Usuario
+PATCH  HTTP://localhost:3000/usuario/3
+
+### Delete Usuario
+DELETE  HTTP://localhost:3000/usuario/3
