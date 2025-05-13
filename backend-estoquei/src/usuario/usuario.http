@@ -1,14 +1,24 @@
 ### List Usuario
-GET HTTP://localhost:3000/usuario
+GET Http://localhost:3000/usuario
 
 ### Get Usuario
-GET HTTP://localhost:3000/usuario/3
+GET Http://localhost:3000/usuario/3
 
 ### Create Usuario
-POST  HTTP://localhost:3000/usuario/
+POST  Http://localhost:3000/usuario/
+Content-Type: application/json
 
+{
+    "nome": "Isllan",
+    "email": "isllan.toso@hotmail.com",
+    "dateofbirth": "2023-07-24",
+}
 ### Update Usuario
-PATCH  HTTP://localhost:3000/usuario/3
+PATCH  Http://localhost:3000/usuario/3
+Content-Type: application/json
 
+{
+    "email": "isllan.toso79@gmail.com"
+}
 ### Delete Usuario
-DELETE  HTTP://localhost:3000/usuario/3
+DELETE  Http://localhost:3000/usuario/3
