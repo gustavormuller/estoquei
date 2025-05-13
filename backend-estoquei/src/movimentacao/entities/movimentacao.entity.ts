@@ -8,19 +8,19 @@ export class Movimentacao {
   @Column()
   tipo: string;
 
-    @Column()
-    quantidade: number;
+  @Column()
+  quantidade: number;
 
-    @Column()
-    data: Date;
+  @Column()
+  data: Date;
 
-    @Column()
-    produtoId: ObjectId;
+  @Column()
+  produtoId: ObjectId;
     
-    @Column()
-    usuarioId: ObjectId;
+  @Column()
+  usuarioId: ObjectId;
     
-    @Column()
-    observacao: string;
+  @Column()
+  observacao: string;
 }
 

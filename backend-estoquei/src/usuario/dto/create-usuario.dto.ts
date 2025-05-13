@@ -8,5 +8,5 @@ export class CreateUsuarioDto {
   email: string;
 
   @IsDateString()
-  dateofbirth: String;
+  dateofbirth: string;
 }

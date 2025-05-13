@@ -2,10 +2,10 @@
 GET HTTP://localhost:3000/usuario
 
 ### Get Usuario
-GET HTTP://localhost:3000/usuario/1
+GET HTTP://localhost:3000/usuario/3
 
 ### Create Usuario
-POST  HTTP://localhost:3000/usuario/2
+POST  HTTP://localhost:3000/usuario/
 
 ### Update Usuario
 PATCH  HTTP://localhost:3000/usuario/3
