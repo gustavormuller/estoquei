@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Produto } from 'src/produto/entities/produto.entity';
 
 @Entity()
 export class Movimentacao {
   @PrimaryGeneratedColumn()
-  id: number; 
+  id: number;
 
   @Column()
   tipo: string;
@@ -14,4 +15,6 @@ export class Movimentacao {
   @Column({ nullable: true })
   observacao: string;
 
+  @ManyToMany(() => Produto, (produto) => produto.movimentacao)
+  produtos: Produto[];
 }

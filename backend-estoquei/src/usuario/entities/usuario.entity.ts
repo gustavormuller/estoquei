@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ObjectId, ManyToMany } from 'ty
 @Entity('usuario') // Tabela do Banco
 export class Usuario {
   @PrimaryGeneratedColumn()
-  id: ObjectId;
+  id: number;
 
   @Column()
   nome: string;
@@ -21,6 +21,5 @@ export class Usuario {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   datacriacao: Date;
 
-  @ManyToMany(() => Movimentacao, (movimentacao) => movimentacao.usuarioId)
-  movimentacao: Movimentacao[];
+  
 }

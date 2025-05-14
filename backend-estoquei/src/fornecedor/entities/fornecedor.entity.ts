@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ObjectId } from 'typeorm';
 @Entity('fornecedor') // Corrigido o nome da tabela
 export class Fornecedor {
   @PrimaryGeneratedColumn()
-  id: ObjectId;
+  id: number;
 
   @Column()
   nome: string;

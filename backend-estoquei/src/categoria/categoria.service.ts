@@ -6,56 +6,50 @@ import { Categoria } from './entities/categoria.entity';
 
 @Injectable()
 export class CategoriaService {
+  repository: any;
   constructor(
     @Inject('CATEGORIA_REPOSITORY')
     private readonly categoriaRepository: Repository<Categoria>,
   ) {}
 
-  async create(CreateCategoriaDto: CreateCategoriaDto) {
+  private handleError(error: unknown, message: string) {
+    console.error(error);
+    return {
+      code: 500,
+      message,
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
+
+  async create(createCategoriaDto: CreateCategoriaDto) {
     try {
-      await this.categoriaRepository.save(CreateCategoriaDto);
+      await this.categoriaRepository.save(createCategoriaDto);
       return {
         code: 200,
-        message: 'categoria cadastrado com sucesso',
+        message: 'Categoria cadastrada com sucesso',
       };
-    } catch (error) {
-      console.error(error);
-      return {
-        code: 500,
-        message: 'Erro ao cadastrar categoria',
-        error: error.message,
-      };
+    } catch (error: unknown) {
+      return this.handleError(error, 'Erro ao cadastrar categoria');
     }
   }
 
   async findAll() {
     try {
-      const categorias = await this.categoriaRepository.find();
-      return categorias;
-    } catch (error) {
-      console.error(error);
-      return {
-        code: 500,
-        message: 'Erro ao buscar categorias',
-        error: error.message,
-      };
+      return await this.categoriaRepository.find();
+    } catch (error: unknown) {
+      return this.handleError(error, 'Erro ao buscar categorias');
     }
   }
 
-  async findOne(id: object) {
+  async findOne(id: number) {
     try {
-      const categoria = await this.categoriaRepository.findOne({ id });
+      const categoria = await this.repository.findOneBy({ id });
       if (!categoria) {
-        return { code: 404, message: 'categoria não encontrado' };
+        return { code: 404, message: 'Categoria não encontrada' };
       }
       return categoria;
-    } catch (error) {
-      console.error(error);
-      return {
-        code: 500,
-        message: 'Erro ao buscar categoria',
-        error: error.message,
-      };
+    } catch (error: unknown) {
+      return this.handleError(error, 'Erro ao buscar categoria');
     }
   }
 
@@ -63,16 +57,11 @@ export class CategoriaService {
     try {
       const result = await this.categoriaRepository.update(id, updateCategoriaDto);
       if (result.affected === 0) {
-        return { code: 404, message: 'categoria não encontrado para atualização' };
+        return { code: 404, message: 'Categoria não encontrada para atualização' };
       }
-      return { code: 200, message: 'categoria atualizado com sucesso' };
-    } catch (error) {
-      console.error(error);
-      return {
-        code: 500,
-        message: 'Erro ao atualizar categoria',
-        error: error.message,
-      };
+      return { code: 200, message: 'Categoria atualizada com sucesso' };
+    } catch (error: unknown) {
+      return this.handleError(error, 'Erro ao atualizar categoria');
     }
   }
 
@@ -80,16 +69,11 @@ export class CategoriaService {
     try {
       const result = await this.categoriaRepository.delete(id);
       if (result.affected === 0) {
-        return { code: 404, message: 'categoria não encontrado para remoção' };
+        return { code: 404, message: 'Categoria não encontrada para remoção' };
       }
-      return { code: 200, message: 'categoria removido com sucesso' };
-    } catch (error) {
-      console.error(error);
-      return {
-        code: 500,
-        message: 'Erro ao remover categoria',
-        error: error.message,
-      };
+      return { code: 200, message: 'Categoria removida com sucesso' };
+    } catch (error: unknown) {
+      return this.handleError(error, 'Erro ao remover categoria');
     }
   }
 }
