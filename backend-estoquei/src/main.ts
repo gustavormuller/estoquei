@@ -7,6 +7,9 @@ async function bootstrap() {
 configDotenv({
   path: './secrets/.env', 
 });
+
+  console.log('DB Host:', process.env.DB_HOST);
+  console.log('DB Password:', process.env.DB_PASSWORD);
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({

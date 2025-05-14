@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ObjectId, OneToMany } from 'typ
 @Entity('categoria') // Tabela do Banco
 export class Categoria {
   @PrimaryGeneratedColumn()
-  id: ObjectId;
+  id: number;
 
   @Column()
   nome: string;
