@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ObjectId } from 'typeorm';
+import { on } from 'events';
+import { Categoria } from 'src/categoria/entities/categoria.entity';
+import { Movimentacao } from 'src/movimentacao/entities/movimentacao.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ObjectId, OneToMany, ManyToOne, ManyToMany } from 'typeorm';
 
 @Entity('produto') // Tabela do Banco
 export class Produto {
@@ -14,12 +17,15 @@ export class Produto {
   @Column()
   descricao: string;
 
-  @Column({ default: true })
+  @Column({ nullable: false })
   preco: number;
 
   @Column()
   quantidade: number;
 
-  @Column()
-  categoriaID: ObjectId;
+  @ManyToOne(() => Categoria, (categoria) => categoria.produto)
+  categoriaID: number;
+
+  @ManyToMany(()=> Movimentacao, (movimentacao) => movimentacao.produtoId)
+  movimentacao: Movimentacao[];
 }

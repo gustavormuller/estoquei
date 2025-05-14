@@ -7,6 +7,6 @@ export class CreateUsuarioDto {
   @IsEmail()
   email: string;
 
-  @IsDateString()
-  dateofbirth: string;
+  @IsString()
+  senha: string;
 }

@@ -2,7 +2,7 @@ import { createConnection } from "typeorm/globals";
 
 export const databaseProviders = [
     {
-      provide: 'DbConnectionToken',
+      provide: 'DATA_SOURCE',
       useFactory: async () => await createConnection({
         type: 'postgres',
         host: process.env.DB_HOST??'localhost',

@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ObjectId } from 'typeorm';
+import { Produto } from 'src/produto/entities/produto.entity';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ObjectId, ManyToOne, ManyToMany } from 'typeorm';
 
 @Entity('movimentacao') // Tabela do Banco
 export class Movimentacao {
@@ -14,11 +16,11 @@ export class Movimentacao {
   @Column()
   data: Date;
 
-  @Column()
+  @ManyToMany(() => Produto, (produto) => produto.movimentacao)
   produtoId: ObjectId;
     
-  @Column()
-  usuarioId: ObjectId;
+  @ManyToMany(()=> Usuario, (usuario) => usuario.movimentacao)
+  usuarioId: number;
     
   @Column()
   observacao: string;

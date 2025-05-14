@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ObjectId } from 'typeorm';
+import { Produto } from 'src/produto/entities/produto.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ObjectId, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity('categoria') // Tabela do Banco
 export class Categoria {
@@ -13,5 +14,8 @@ export class Categoria {
   
   @Column()
   ativa: boolean;
+
+  @OneToMany(() => Produto, (produto) => produto.categoriaID)
+  produto: Produto[];
 }
 

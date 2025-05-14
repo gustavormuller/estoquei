@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ObjectId } from 'typeorm';
+import { Movimentacao } from 'src/movimentacao/entities/movimentacao.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ObjectId, ManyToMany } from 'typeorm';
 
 @Entity('usuario') // Tabela do Banco
 export class Usuario {
@@ -19,4 +20,7 @@ export class Usuario {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   datacriacao: Date;
+
+  @ManyToMany(() => Movimentacao, (movimentacao) => movimentacao.usuarioId)
+  movimentacao: Movimentacao[];
 }
