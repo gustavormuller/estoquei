@@ -1,9 +1,8 @@
-import { IsString, IsInt, IsObject } from "class-validator";
-import { ObjectId } from "typeorm";
+import { IsString, IsInt, IsNumber} from "class-validator";
 
 export class CreateMovimentacaoDto {
-  @IsObject()
-  id: ObjectId;
+  @IsNumber()
+  id: number;
 
   @IsString()
   tipo: string;

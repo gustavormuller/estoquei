@@ -1,9 +1,9 @@
-import { IsString, IsObject } from "class-validator";
-import { ObjectId } from "typeorm";
+import { IsString, IsNumber } from "class-validator";
+
 
 export class CreateFornecedorDto {
-  @IsObject()
-  id: ObjectId;
+  @IsNumber()
+  id: number;
 
   @IsString()
   nome: string;
