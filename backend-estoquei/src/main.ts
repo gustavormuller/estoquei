@@ -4,9 +4,9 @@ import { configDotenv } from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  configDotenv({
-    path: '../secrets/.env',
-  });
+configDotenv({
+  path: './secrets/.env', 
+});
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({

@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ObjectId } from 'typeorm';
 
-@Entity('forncedor') // Tabela do Banco
+@Entity('fornecedor') // Corrigido o nome da tabela
 export class Fornecedor {
   @PrimaryGeneratedColumn()
   id: ObjectId;
@@ -16,9 +16,7 @@ export class Fornecedor {
 
   @Column()
   telefone: string;
-  
+
   @Column()
   endereco: string;
-
 }
-

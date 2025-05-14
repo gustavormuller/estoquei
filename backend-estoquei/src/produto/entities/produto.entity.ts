@@ -1,7 +1,6 @@
-import { on } from 'events';
 import { Categoria } from 'src/categoria/entities/categoria.entity';
 import { Movimentacao } from 'src/movimentacao/entities/movimentacao.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ObjectId, OneToMany, ManyToOne, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ObjectId, ManyToOne, ManyToMany } from 'typeorm';
 
 @Entity('produto') // Tabela do Banco
 export class Produto {

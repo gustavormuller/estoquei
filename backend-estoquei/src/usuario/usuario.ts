@@ -9,3 +9,5 @@ export const usuarioProviders = [
     inject: ['DATA_SOURCE'],
   },
 ];
+
+export { Usuario };
