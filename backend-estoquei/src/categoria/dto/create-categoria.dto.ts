@@ -1,9 +1,9 @@
 import { IsString, IsObject } from "class-validator";
-import { ObjectId } from "typeorm";
+
 
 export class CreateCategoriaDto {
   @IsObject()
-  id: ObjectId;
+  id: number;
 
   @IsString()
   nome: string;
