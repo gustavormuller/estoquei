@@ -39,8 +39,16 @@ export class UsuarioService {
     return `This action returns all usuario`;
   }
 
-  findOne(id: number) {
+  findById(id: number) {
     return `This action returns a #${id} usuario`;
+  }
+
+  async findByEmail(paramEmail: string) {
+    return await this.usuarioRepository.findOne({where:{email: paramEmail}});
+  }
+
+  async findOne(id:number) {
+    return await this.usuarioRepository.findOne({where:{id}});
   }
 
   update(id: number, _updateUsuarioDto: UpdateUsuarioDto) {
