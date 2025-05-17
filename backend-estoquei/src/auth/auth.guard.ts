@@ -8,25 +8,30 @@ import { jwtConstants } from './auth.constant';
 export class AuthGuard implements CanActivate {
 
   constructor(private readonly jwtService:JwtService, private reflector: Reflector) {}  
-  async canActivate(
-    context: ExecutionContext
-  ){
+  async canActivate(context: ExecutionContext){
 
+    //Verifica se a rota é pública
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler()
     ]);
+  
     if (isPublic) {
       return true;
     }
-    console.log("entrou no guard");
 
+    //Pego as informações do request
     const request = context.switchToHttp().getRequest();
+
+    //Verifico se existe o token no header
     const token = request.headers['authorization'];
     if (!token) {
       throw new UnauthorizedException();
     }
+
     try{
-      const payload = token.split(' ')[1];
+      const split = token.split(' ');
+      const payload = split[1];
+      
       if (!payload) {
         throw new UnauthorizedException();
       }
@@ -35,7 +40,7 @@ export class AuthGuard implements CanActivate {
         secret:jwtConstants.secret,
       });
       request['user'] = verify
-      console.log(verify);
+
     }catch (error) {
       throw new UnauthorizedException();
     }

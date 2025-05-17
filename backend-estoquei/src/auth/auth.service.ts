@@ -18,7 +18,7 @@ export class AuthService {
         const usuario = await this.usuarioService.findByEmail(loginDto.email);
         if (!usuario) {
             return {
-                code: 401,
+                statusCode: 401,
                 message: 'Usuario não encontrado',
             }
         }
@@ -26,15 +26,15 @@ export class AuthService {
         const validaSenha = await bcrypt.compare(loginDto.senha, usuario.senha);
         if (!validaSenha) {
             return {
-                code: 402,
+                statusCode: 402,
                 message: 'Senha incorreta',
             }
         }
 
-        const payload = {id: usuario.id, email:usuario.email}
+        const payload = {id: usuario.id, email:usuario.email, tipo: usuario.tipo};
 
         return {
-            code: 200,
+            statusCode: 200,
             token: this.jwtService.sign(payload),
         }
     }

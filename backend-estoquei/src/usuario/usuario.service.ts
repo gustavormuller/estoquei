@@ -27,7 +27,7 @@ export class UsuarioService {
     }catch (error) {
       console.error(error);
       return {
-        code: 500,
+        statusCode: 500,
         message: 'Erro ao cadastrar usuario',
         error: error.message,
       }
@@ -36,11 +36,16 @@ export class UsuarioService {
   }
 
   findAll() {
-    return `This action returns all usuario`;
-  }
-
-  findById(id: number) {
-    return `This action returns a #${id} usuario`;
+    return this.usuarioRepository.find(
+      {
+        select: {
+          id: true,
+          nome: true,
+          email: true,
+          tipo: true
+        }
+      }
+    );
   }
 
   async findByEmail(paramEmail: string) {
@@ -48,11 +53,29 @@ export class UsuarioService {
   }
 
   async findOne(id:number) {
-    return await this.usuarioRepository.findOne({where:{id}});
+    return await this.usuarioRepository.findOne({
+      where: { id: id },
+      select:{
+        id: true,
+        nome: true,
+        email: true,
+        tipo: true
+      }
+    });
   }
 
-  update(id: number, _updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario with data: ${JSON.stringify(_updateUsuarioDto)}`;
+  async update(id: number, _updateUsuarioDto: UpdateUsuarioDto) {
+    const result = await this.usuarioRepository.update(id, _updateUsuarioDto)
+    if (result.affected === 0) {
+      return {
+        statusCode: 404,
+        message: 'Usuario não encontrado',
+      }
+    }
+    return {
+      statusCode: 200,
+      message: 'Usuario atualizado com sucesso',
+    }
   }
 
   remove(id: number) {

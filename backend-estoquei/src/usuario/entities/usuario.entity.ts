@@ -15,7 +15,7 @@ export class Usuario {
   @Column()
   senha: string;
 
-  @Column({ default: true })
+  @Column({ default: 'user' })
   tipo: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

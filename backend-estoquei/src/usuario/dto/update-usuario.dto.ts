@@ -11,4 +11,6 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
 
   @ApiProperty({ description: 'Senha do usuário', required: false })
   senha?: string;
+
+  
 }
