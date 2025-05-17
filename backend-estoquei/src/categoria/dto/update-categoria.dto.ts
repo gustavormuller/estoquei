@@ -11,4 +11,7 @@ export class UpdateCategoriaDto extends PartialType(CreateCategoriaDto) {
 
   @ApiProperty({ description: 'Descrição da categoria', required: false })
   descricao?: string;
+
+  @ApiProperty({ description: 'Ativa', required: false })
+  ativa?: boolean;
 }

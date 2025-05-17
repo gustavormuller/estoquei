@@ -12,7 +12,7 @@ export class Categoria {
   @Column()
   descricao: string;
   
-  @Column()
+  @Column({default: true, nullable: true})
   ativa: boolean;
 
   @OneToMany(() => Produto, (produto) => produto.categoriaID)
