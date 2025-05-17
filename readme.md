@@ -10,7 +10,7 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 ## 🚀 Funcionalidades
 
 - 📋 Cadastro, edição, visualização e exclusão de produtos (CRUD completo)
-- 📈 Visualização gráfica da distribuição dos produtos
+- 📈 Visualização gráfica da distribuição do produto
 - 🔍 Consulta rápida de informações no estoque
 - 🔄 Integração completa entre frontend e backend via API REST
 - 💾 Armazenamento persistente com PostgreSQL
