@@ -22,7 +22,7 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 - Axios
 - React Router DOM
 - Chart.js ou Recharts (para gráficos)
-- TailwindCSS ou Bootstrap. 
+- TailwindCSS ou Bootstrap
 
 ### Backend
 - NestJS (Node.js)
