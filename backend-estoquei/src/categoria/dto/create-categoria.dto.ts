@@ -8,5 +8,5 @@ export class CreateCategoriaDto {
 
   @ApiProperty({ description: 'Descrição da categoria' })
   @IsString()
-  descricao: string;
+  descricao: string; 
 }
