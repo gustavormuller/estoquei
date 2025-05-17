@@ -57,7 +57,7 @@ Este projeto foi desenvolvido como uma atividade prática da faculdade, com os s
 - Filtro por categorias ou nomes
 - Geração de relatórios em PDF
 - Upload de imagem dos produtos
-- Deploy em nuvem (Render, Vercel ou Railway)
+- Deploy em nuvem (Render, Vercel)
 
 ---
 
