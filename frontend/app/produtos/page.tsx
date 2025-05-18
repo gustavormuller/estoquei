@@ -1,166 +1,165 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Plus, Search, Edit, Trash, ArrowUpCircle, ArrowDownCircle } from "lucide-react"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import { ProductDialog } from "@/components/product-dialog"
 import { MovementDialog } from "@/components/movement-dialog"
-
-const products = [
-  {
-    id: 1,
-    code: "P001",
-    name: 'Monitor LED 24"',
-    price: 899.9,
-    quantity: 15,
-    category: "Eletrônicos",
-    supplier: "TechSupply",
-  },
-  {
-    id: 2,
-    code: "P002",
-    name: "Teclado Mecânico",
-    price: 349.9,
-    quantity: 8,
-    category: "Periféricos",
-    supplier: "GamerGear",
-  },
-  {
-    id: 3,
-    code: "P003",
-    name: "Mouse Sem Fio",
-    price: 129.9,
-    quantity: 3,
-    category: "Periféricos",
-    supplier: "GamerGear",
-  },
-  {
-    id: 4,
-    code: "P004",
-    name: "Headset Gamer",
-    price: 299.9,
-    quantity: 12,
-    category: "Áudio",
-    supplier: "SoundMaster",
-  },
-  {
-    id: 5,
-    code: "P005",
-    name: "SSD 500GB",
-    price: 449.9,
-    quantity: 20,
-    category: "Armazenamento",
-    supplier: "TechSupply",
-  },
-]
+import { ProdutoService, Produto } from "@/lib/services/produto.service"
+import { useToast } from "@/components/ui/use-toast"
+import { Pencil, Trash2, ArrowUpCircle, ArrowDownCircle } from "lucide-react"
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<Produto[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+  const { toast } = useToast()
+  const produtoService = new ProdutoService()
+
+  async function loadProducts() {
+    try {
+      setIsLoading(true)
+      const data = await produtoService.getAll()
+      setProducts(data)
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível carregar os produtos",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function handleDelete(id: number) {
+    if (!confirm("Tem certeza que deseja excluir este produto?")) return
+
+    try {
+      await produtoService.delete(id)
+      toast({
+        title: "Sucesso",
+        description: "Produto excluído com sucesso",
+      })
+      loadProducts()
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível excluir o produto",
+        variant: "destructive",
+      })
+    }
+  }
+
+  useEffect(() => {
+    loadProducts()
+  }, [])
+
+  const filteredProducts = products.filter((product) =>
+    product.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Produtos</h1>
-        <ProductDialog>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Novo Produto
-          </Button>
+    <div className="container mx-auto py-10">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Produtos</h1>
+        <ProductDialog onSuccess={loadProducts}>
+          <Button>Novo Produto</Button>
         </ProductDialog>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Gerenciar Produtos</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
-            <div className="relative w-full max-w-sm">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input type="search" placeholder="Buscar produtos..." className="pl-8" />
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <select className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm">
-                <option value="">Todas as categorias</option>
-                <option value="eletronicos">Eletrônicos</option>
-                <option value="perifericos">Periféricos</option>
-                <option value="audio">Áudio</option>
-                <option value="armazenamento">Armazenamento</option>
-              </select>
-              <select className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm">
-                <option value="">Todos os fornecedores</option>
-                <option value="techsupply">TechSupply</option>
-                <option value="gamergear">GamerGear</option>
-                <option value="soundmaster">SoundMaster</option>
-              </select>
-              <select className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm">
-                <option value="">Estoque</option>
-                <option value="low">Estoque baixo</option>
-                <option value="normal">Estoque normal</option>
-                <option value="high">Estoque alto</option>
-              </select>
-            </div>
-          </div>
+      <div className="mb-4">
+        <Input
+          placeholder="Buscar produtos..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="max-w-sm"
+        />
+      </div>
 
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Código</TableHead>
-                  <TableHead>Nome</TableHead>
-                  <TableHead>Preço</TableHead>
-                  <TableHead>Quantidade</TableHead>
-                  <TableHead>Categoria</TableHead>
-                  <TableHead>Fornecedor</TableHead>
-                  <TableHead className="w-[180px]">Ações</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {products.map((product) => (
-                  <TableRow key={product.id}>
-                    <TableCell>{product.code}</TableCell>
-                    <TableCell className="font-medium">{product.name}</TableCell>
-                    <TableCell>R$ {product.price.toFixed(2)}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        {product.quantity}
-                        {product.quantity <= 5 && <Badge variant="destructive">Baixo</Badge>}
-                      </div>
-                    </TableCell>
-                    <TableCell>{product.category}</TableCell>
-                    <TableCell>{product.supplier}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <ProductDialog product={product}>
-                          <Button variant="ghost" size="icon">
-                            <Edit className="h-4 w-4" />
-                            <span className="sr-only">Editar</span>
-                          </Button>
-                        </ProductDialog>
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nome</TableHead>
+              <TableHead>Descrição</TableHead>
+              <TableHead>Preço</TableHead>
+              <TableHead>Quantidade</TableHead>
+              <TableHead>Categoria</TableHead>
+              <TableHead>Fornecedor</TableHead>
+              <TableHead className="text-right">Ações</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center">
+                  Carregando...
+                </TableCell>
+              </TableRow>
+            ) : filteredProducts.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center">
+                  Nenhum produto encontrado
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredProducts.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell>{product.nome}</TableCell>
+                  <TableCell>{product.descricao}</TableCell>
+                  <TableCell>R$ {product.preco.toFixed(2)}</TableCell>
+                  <TableCell>{product.quantidade}</TableCell>
+                  <TableCell>{product.categoria?.nome}</TableCell>
+                  <TableCell>{product.fornecedor?.nome}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <ProductDialog product={product} onSuccess={loadProducts}>
                         <Button variant="ghost" size="icon">
-                          <Trash className="h-4 w-4" />
-                          <span className="sr-only">Excluir</span>
+                          <Pencil className="h-4 w-4" />
                         </Button>
-                        <MovementDialog product={product} type="entrada">
-                          <Button variant="ghost" size="icon" className="text-[#10B981]">
-                            <ArrowUpCircle className="h-4 w-4" />
-                            <span className="sr-only">Entrada</span>
-                          </Button>
-                        </MovementDialog>
-                        <MovementDialog product={product} type="saida">
-                          <Button variant="ghost" size="icon" className="text-[#F59E0B]">
-                            <ArrowDownCircle className="h-4 w-4" />
-                            <span className="sr-only">Saída</span>
-                          </Button>
-                        </MovementDialog>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+                      </ProductDialog>
+                      <MovementDialog
+                        product={product}
+                        type="entrada"
+                        onSuccess={loadProducts}
+                      >
+                        <Button variant="ghost" size="icon" className="text-green-600">
+                          <ArrowUpCircle className="h-4 w-4" />
+                        </Button>
+                      </MovementDialog>
+                      <MovementDialog
+                        product={product}
+                        type="saida"
+                        onSuccess={loadProducts}
+                      >
+                        <Button variant="ghost" size="icon" className="text-orange-600">
+                          <ArrowDownCircle className="h-4 w-4" />
+                        </Button>
+                      </MovementDialog>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDelete(product.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   )
 }
