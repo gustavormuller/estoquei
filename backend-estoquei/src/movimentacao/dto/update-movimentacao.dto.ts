@@ -7,7 +7,7 @@ export class UpdateMovimentacaoDto extends PartialType(CreateMovimentacaoDto) {
   id?: number;
 
   @ApiProperty({ description: 'Tipo da movimentação', required: false })
-  tipo?: string;
+  tipo?: ('ENTRADA' | 'SAIDA');
 
   @ApiProperty({ description: 'Quantidade movimentada', required: false })
   quantidade?: number;

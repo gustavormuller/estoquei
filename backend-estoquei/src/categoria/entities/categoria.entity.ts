@@ -15,7 +15,7 @@ export class Categoria {
   @Column({default: true, nullable: true})
   ativa: boolean;
 
-  @OneToMany(() => Produto, (produto) => produto.categoriaID)
+  @OneToMany(() => Produto, (produto) => produto.categoria)
   produto: Produto[];
 }
 

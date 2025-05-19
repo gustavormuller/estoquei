@@ -1,14 +1,14 @@
-import { IsString, IsInt, IsNumber } from 'class-validator';
+import { IsString, IsInt, IsNumber, IsOptional, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateMovimentacaoDto {
-  @ApiProperty({ description: 'ID da movimentação' })
-  @IsNumber()
-  id: number;
+  @ApiProperty({ description: 'ID do produto' })
+  @IsInt()
+  produtoId: number;
 
   @ApiProperty({ description: 'Tipo da movimentação' })
-  @IsString()
-  tipo: string;
+  @IsEnum(['ENTRADA', 'SAIDA'])
+  tipo: ('ENTRADA' | 'SAIDA');
 
   @ApiProperty({ description: 'Quantidade movimentada' })
   @IsInt()
@@ -16,5 +16,6 @@ export class CreateMovimentacaoDto {
 
   @ApiProperty({ description: 'Observação da movimentação' })
   @IsString()
+  @IsOptional()
   observacao: string;
 }

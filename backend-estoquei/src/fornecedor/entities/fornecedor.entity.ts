@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ObjectId } from 'typeorm';
+import { Produto } from 'src/produto/produto';
+import { Entity, Column, PrimaryGeneratedColumn, ObjectId, OneToMany } from 'typeorm';
 
 @Entity('fornecedor') // Corrigido o nome da tabela
 export class Fornecedor {
@@ -9,7 +10,7 @@ export class Fornecedor {
   nome: string;
 
   @Column()
-  contato: string;
+  empresa: string;
 
   @Column()
   email: string;
@@ -19,4 +20,7 @@ export class Fornecedor {
 
   @Column()
   endereco: string;
+
+  @OneToMany(() => Produto, (produto) => produto.fornecedor)
+  produto: Produto[];
 }

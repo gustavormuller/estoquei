@@ -1,31 +1,37 @@
 import { Categoria } from 'src/categoria/entities/categoria.entity';
+import { Fornecedor } from 'src/fornecedor/fornecedor';
 import { Movimentacao } from 'src/movimentacao/entities/movimentacao.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, OneToMany } from 'typeorm';
 
 @Entity('produto') // Tabela do Banco
 export class Produto {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  codigo: string;
-
   @Column({ unique: true })
   nome: string;
 
-  @Column()
+  @Column({nullable: true})
   descricao: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true , default: 0.0, type: 'decimal', precision: 10, scale: 2})
   preco: number;
 
-  @Column()
+  @Column({default: 0})
   quantidade: number;
 
-  @ManyToOne(() => Categoria, (categoria) => categoria.produto)
-  categoriaID: number;
+  @ManyToOne(() => Fornecedor, (fornecedor) => fornecedor.produto)
+  fornecedor: Fornecedor;
 
-  @ManyToMany(() => Movimentacao, (movimentacao) => movimentacao.produtos)
+  @Column()
+  fornecedorId: number;
+
+  @ManyToOne(() => Categoria, (categoria) => categoria.produto)
+  categoria: Categoria;
+  @Column()
+  categoriaId: number;
+
+  @OneToMany(() => Movimentacao, (movimentacao) => movimentacao.produtoId)
   movimentacao: Movimentacao[];
 }
 

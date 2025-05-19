@@ -7,6 +7,7 @@ import { DatabaseModule } from 'src/database/database.module';
 @Module({
   controllers: [ProdutoController],
   providers: [ProdutoService,...produtoProviders],
-  imports: [DatabaseModule]
+  imports: [DatabaseModule],
+  exports: [ProdutoService],
 })
 export class ProdutoModule {}

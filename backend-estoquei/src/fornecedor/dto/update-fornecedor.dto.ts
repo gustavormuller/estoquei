@@ -3,9 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { CreateFornecedorDto } from './create-fornecedor.dto';
 
 export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
-  @ApiProperty({ description: 'ID do fornecedor', required: false })
-  id?: number;
-
   @ApiProperty({ description: 'Nome do fornecedor', required: false })
   nome?: string;
 

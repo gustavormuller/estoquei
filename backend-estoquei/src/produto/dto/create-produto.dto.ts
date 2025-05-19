@@ -1,4 +1,4 @@
-import { IsString, IsInt } from 'class-validator';
+import { IsString, IsInt, isNumber, IsNumber, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateProdutoDto {
@@ -7,14 +7,19 @@ export class CreateProdutoDto {
   nome: string;
 
   @ApiProperty({ description: 'Descrição do produto' })
+  @IsOptional()
   @IsString()
-  descricao: string;
+  descricao?: string;
 
   @ApiProperty({ description: 'Preço do produto' })
-  @IsInt()
+  @IsNumber()
   preco: number;
 
   @ApiProperty({ description: 'Quantidade do produto em estoque' })
   @IsInt()
   quantidade: number;
+ 
+  @ApiProperty({ description: 'ID do fornecedor' })
+  @IsInt() 
+  fornecedorId: number;
 }

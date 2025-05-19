@@ -15,13 +15,13 @@ export class ProdutoService {
     try {
       await this.produtoRepository.save(createProdutoDto);
       return {
-        code: 200,
+        statusCode: 200,
         message: 'Produto cadastrado com sucesso',
       };
     } catch (error) {
       console.error(error);
       return {
-        code: 500,
+        statusCode: 500,
         message: 'Erro ao cadastrar Produto',
         error: error.message,
       };
@@ -35,7 +35,7 @@ export class ProdutoService {
     } catch (error) {
       console.error(error);
       return {
-        code: 500,
+        statusCode: 500,
         message: 'Erro ao buscar produtos',
         error: error.message,
       };
@@ -46,13 +46,13 @@ export class ProdutoService {
     try {
       const produto = await this.produtoRepository.findOne({ where: { id } });
       if (!produto) {
-        return { code: 404, message: 'Produto não encontrado' };
+        return { statusCode: 404, message: 'Produto não encontrado' };
       }
       return produto;
     } catch (error) {
       console.error(error);
       return {
-        code: 500,
+        statusCode: 500,
         message: 'Erro ao buscar produto',
         error: error.message,
       };
@@ -61,16 +61,33 @@ export class ProdutoService {
 
   async update(id: number, updateProdutoDto: UpdateProdutoDto) {
     try {
-      const result = await this.produtoRepository.update(id, updateProdutoDto);
+      const result = await this.produtoRepository.update({id: id}, updateProdutoDto);
       if (result.affected === 0) {
-        return { code: 404, message: 'Produto não encontrado para atualização' };
+        return { statusCode: 404, message: 'Produto não encontrado para atualização' };
       }
-      return { code: 200, message: 'Produto atualizado com sucesso' };
+      return { statusCode: 200, message: 'Produto atualizado com sucesso' };
     } catch (error) {
       console.error(error);
       return {
-        code: 500,
+        statusCode: 500,
         message: 'Erro ao atualizar produto',
+        error: error.message,
+      };
+    }
+  }
+
+  async updateQuantidade(id: number, quantidade: number) {
+    try {
+      const result = await this.produtoRepository.update({id: id}, {quantidade: quantidade});
+      if (result.affected === 0) {
+        return { statusCode: 404, message: 'Produto não encontrado para atualização' };
+      }
+      return { statusCode: 200, message: 'Qauntidade do produto atualizado com sucesso' };
+    } catch (error) {
+      console.error(error);
+      return {
+        statusCode: 500,
+        message: 'Erro ao atualizar quantidade do produto',
         error: error.message,
       };
     }
@@ -80,13 +97,13 @@ export class ProdutoService {
     try {
       const result = await this.produtoRepository.delete(id);
       if (result.affected === 0) {
-        return { code: 404, message: 'Produto não encontrado para remoção' };
+        return { statusCode: 404, message: 'Produto não encontrado para remoção' };
       }
-      return { code: 200, message: 'Produto removido com sucesso' };
+      return { statusCode: 200, message: 'Produto removido com sucesso' };
     } catch (error) {
       console.error(error);
       return {
-        code: 500,
+        statusCode: 500,
         message: 'Erro ao remover produto',
         error: error.message,
       };
