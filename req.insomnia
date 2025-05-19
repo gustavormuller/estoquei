@@ -1,0 +1,674 @@
+type: collection.insomnia.rest/5.0
+name: Estoquei - API
+meta:
+  id: wrk_eb144e292748438f825de7843c6aeefd
+  created: 1747269440984
+  modified: 1747269440984
+collection:
+  - name: AUTH
+    meta:
+      id: fld_adaf3347d8b84be595e0b880bef16370
+      created: 1747269486433
+      modified: 1747614637976
+      sortKey: -1747269486433
+    children:
+      - url: localhost:3000/auth/login
+        name: Login
+        meta:
+          id: req_be0e7ebbe5c44cabb292cf09bac40279
+          created: 1747269489586
+          modified: 1747614639448
+          isPrivate: false
+          sortKey: -1747351391022
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "ramses.martins@gmail.com",
+            	"senha": "teste123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMudG9zb0Bob3RtYWlsLmNvbSIsImlhdCI6MTc0NzM1MTM1MSwiZXhwIjoxNzQ3MzU4NTUxfQ.rStHYgiuLI_f2DT5UufAj1aHQ82k6j0L6YlemztQjfw
+          disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: USUARIO
+    meta:
+      id: fld_027be00189c14399be7b0053f46b10b1
+      created: 1747351398635
+      modified: 1747351398635
+      sortKey: -1747351398635
+    children:
+      - url: localhost:3000/usuario
+        name: Get All Users
+        meta:
+          id: req_45e240f89a15409aa6bec6849e21498f
+          created: 1747351406359
+          modified: 1747441813812
+          isPrivate: false
+          sortKey: -1747351406359
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMudG9zb0Bob3RtYWlsLmNvbSIsInRpcG8iOiJ1c2VyIiwiaWF0IjoxNzQ3NDQwMDYxLCJleHAiOjE3NDc0NDcyNjF9.pxefNq7oIKD38sZ1k9wMTjdXRsJyTJffk0dyK1VRos0
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/usuario
+        name: Create User
+        meta:
+          id: req_8ceaae0ca812493e83d63b4b35c8520c
+          created: 1747440481240
+          modified: 1747441822074
+          isPrivate: false
+          sortKey: -1747440481240
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nome": "Joao Vitor 1",
+            	"email":"joao.vitor1@gmail.com",
+            	"senha": "teste123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMudG9zb0Bob3RtYWlsLmNvbSIsInRpcG8iOiJ1c2VyIiwiaWF0IjoxNzQ3NDQwMDYxLCJleHAiOjE3NDc0NDcyNjF9.pxefNq7oIKD38sZ1k9wMTjdXRsJyTJffk0dyK1VRos0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/usuario
+        name: Update User
+        meta:
+          id: req_4750c11448ae41359543716587952cfa
+          created: 1747441829743
+          modified: 1747442345112
+          isPrivate: false
+          sortKey: -1747395943799.5
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email":"ramses.martins@gmail.com"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMudG9zb0Bob3RtYWlsLmNvbSIsInRpcG8iOiJ1c2VyIiwiaWF0IjoxNzQ3NDQwMDYxLCJleHAiOjE3NDc0NDcyNjF9.pxefNq7oIKD38sZ1k9wMTjdXRsJyTJffk0dyK1VRos0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:3000/usuario/2
+        name: Get User
+        meta:
+          id: req_5477b0368fd9451585d6b21e0715d112
+          created: 1747442451170
+          modified: 1747442457226
+          isPrivate: false
+          sortKey: -1747351398690.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMudG9zb0Bob3RtYWlsLmNvbSIsInRpcG8iOiJ1c2VyIiwiaWF0IjoxNzQ3NDQwMDYxLCJleHAiOjE3NDc0NDcyNjF9.pxefNq7oIKD38sZ1k9wMTjdXRsJyTJffk0dyK1VRos0
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: CATEGORIA
+    meta:
+      id: fld_05c58b5b0dfa4ca1aa2bbcc3665c646a
+      created: 1747442474618
+      modified: 1747442474618
+      sortKey: -1747442474618
+    children:
+      - url: "{{ _.base_url }}/categoria"
+        name: Get All Categorias
+        meta:
+          id: req_ca419d5b6fcf4e55946cbd31ce9ed486
+          created: 1747442796884
+          modified: 1747607463090
+          isPrivate: false
+          sortKey: -1747442796884
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYwNzMxMSwiZXhwIjoxNzQ3NjE0NTExfQ.rdjJZ61ZsylFqmJa8OAVlY0mrgQH4AjYI-fgky6816g
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/categoria"
+        name: Create Categoria
+        meta:
+          id: req_1d6f6d6ccec94bff937c71e458bdf324
+          created: 1747442891157
+          modified: 1747443479273
+          isPrivate: false
+          sortKey: -1747442891157
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nome": "Alimentos",
+            	"descricao": "Produtos que possam ser ingeridos por humanos"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMudG9zb0Bob3RtYWlsLmNvbSIsInRpcG8iOiJ1c2VyIiwiaWF0IjoxNzQ3NDQwMDYxLCJleHAiOjE3NDc0NDcyNjF9.pxefNq7oIKD38sZ1k9wMTjdXRsJyTJffk0dyK1VRos0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/categoria/4"
+        name: Update Categoria
+        meta:
+          id: req_fe3c45cdde49435f9e38532f36baa93a
+          created: 1747443488662
+          modified: 1747443718063
+          isPrivate: false
+          sortKey: -1747442844020.5
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"ativa": true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMudG9zb0Bob3RtYWlsLmNvbSIsInRpcG8iOiJ1c2VyIiwiaWF0IjoxNzQ3NDQwMDYxLCJleHAiOjE3NDc0NDcyNjF9.pxefNq7oIKD38sZ1k9wMTjdXRsJyTJffk0dyK1VRos0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/categoria/4"
+        name: Get Categoria
+        meta:
+          id: req_724c31e11e1f47448562ec116f983fc2
+          created: 1747443740131
+          modified: 1747443747838
+          isPrivate: false
+          sortKey: -1747442867588.75
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMudG9zb0Bob3RtYWlsLmNvbSIsInRpcG8iOiJ1c2VyIiwiaWF0IjoxNzQ3NDQwMDYxLCJleHAiOjE3NDc0NDcyNjF9.pxefNq7oIKD38sZ1k9wMTjdXRsJyTJffk0dyK1VRos0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/categoria/4"
+        name: Delete Categoria
+        meta:
+          id: req_9aceca6b170341fdb2f7782e440aedd9
+          created: 1747443864958
+          modified: 1747443867379
+          isPrivate: false
+          sortKey: -1747442855804.625
+        method: DELETE
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMudG9zb0Bob3RtYWlsLmNvbSIsInRpcG8iOiJ1c2VyIiwiaWF0IjoxNzQ3NDQwMDYxLCJleHAiOjE3NDc0NDcyNjF9.pxefNq7oIKD38sZ1k9wMTjdXRsJyTJffk0dyK1VRos0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: PRODUTOS
+    meta:
+      id: fld_175e06495ff54178bb893f64ebbab8fa
+      created: 1747607093692
+      modified: 1747607093692
+      sortKey: -1747607093692
+    children:
+      - url: "{{ _.base_url }}/produto"
+        name: Get All Produtos
+        meta:
+          id: req_3268d4badc0e4990a0d7f62c81fed0df
+          created: 1747607096632
+          modified: 1747607324295
+          isPrivate: false
+          sortKey: -1747607096632
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYwNzMxMSwiZXhwIjoxNzQ3NjE0NTExfQ.rdjJZ61ZsylFqmJa8OAVlY0mrgQH4AjYI-fgky6816g
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/produto"
+        name: Create Produtos
+        meta:
+          id: req_9cd7611a5c804470ad6e4985dc1ef380
+          created: 1747607432174
+          modified: 1747607876043
+          isPrivate: false
+          sortKey: -1747524993894.5
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nome": "Feijão",
+            	"preco": 10.5,
+            	"quantidade": 3
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYwNzMxMSwiZXhwIjoxNzQ3NjE0NTExfQ.rdjJZ61ZsylFqmJa8OAVlY0mrgQH4AjYI-fgky6816g
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/produto/2"
+        name: Update Produto
+        meta:
+          id: req_11b12985b0364646bf1694086512426c
+          created: 1747607923321
+          modified: 1747608100120
+          isPrivate: false
+          sortKey: -1747483942525.75
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"quantidade": 3
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYwNzMxMSwiZXhwIjoxNzQ3NjE0NTExfQ.rdjJZ61ZsylFqmJa8OAVlY0mrgQH4AjYI-fgky6816g
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/produto/2"
+        name: Get Produto
+        meta:
+          id: req_5e646af9849941d4a872843234e89e17
+          created: 1747608148156
+          modified: 1747608151854
+          isPrivate: false
+          sortKey: -1747566045263.25
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYwNzMxMSwiZXhwIjoxNzQ3NjE0NTExfQ.rdjJZ61ZsylFqmJa8OAVlY0mrgQH4AjYI-fgky6816g
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: FORNECEDOR
+    meta:
+      id: fld_6fb7b7cf2d144e2bb360098e4749e1b3
+      created: 1747608220858
+      modified: 1747608220858
+      sortKey: -1747608220858
+    children:
+      - url: "{{ _.base_url }}/fornecedor"
+        name: Get All Fornecedores
+        meta:
+          id: req_fda9af05876847eba4eb078a91800545
+          created: 1747608233498
+          modified: 1747608299624
+          isPrivate: false
+          sortKey: -1747608233498
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYwNzMxMSwiZXhwIjoxNzQ3NjE0NTExfQ.rdjJZ61ZsylFqmJa8OAVlY0mrgQH4AjYI-fgky6816g
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/fornecedor"
+        name: Create Fornecedores
+        meta:
+          id: req_4a0d0464333e43c7ad2c88af64aaf994
+          created: 1747608311136
+          modified: 1747609045464
+          isPrivate: false
+          sortKey: -1747607665065
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nome": "Gustavo Muller",
+            	"email": "gustavo.muller@estoquei.com",
+            	"telefone": "2371923771",
+            	"empresa": "Estoquei",
+            	"endereco": "Rua Manguinhos, Alto Laje, Cariacica"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYwNzMxMSwiZXhwIjoxNzQ3NjE0NTExfQ.rdjJZ61ZsylFqmJa8OAVlY0mrgQH4AjYI-fgky6816g
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/fornecedor/2"
+        name: Update Fornecedor
+        meta:
+          id: req_a3a2a016493b4e3ab1da7f72da8e8762
+          created: 1747609071999
+          modified: 1747609120928
+          isPrivate: false
+          sortKey: -1747607380848.5
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nome": "Gustavo Muller da Silva"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYwNzMxMSwiZXhwIjoxNzQ3NjE0NTExfQ.rdjJZ61ZsylFqmJa8OAVlY0mrgQH4AjYI-fgky6816g
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/fornecedor/2"
+        name: Get Fornecedor
+        meta:
+          id: req_f0ac5d6e9320499d80658ae4fdc53e09
+          created: 1747609138869
+          modified: 1747609148671
+          isPrivate: false
+          sortKey: -1747607949281.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYwNzMxMSwiZXhwIjoxNzQ3NjE0NTExfQ.rdjJZ61ZsylFqmJa8OAVlY0mrgQH4AjYI-fgky6816g
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: MOVIMENTACAO
+    meta:
+      id: fld_2e23c81d126542b1b977c7a6c62b2513
+      created: 1747609278459
+      modified: 1747609278459
+      sortKey: -1747609278459
+    children:
+      - url: "{{ _.base_url }}/movimentacao"
+        name: Create Movimentacao
+        meta:
+          id: req_a05e0834b8eb4a37b8c9e4c5584fe8a6
+          created: 1747611439809
+          modified: 1747614650180
+          isPrivate: false
+          sortKey: -1747611439809
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"produtoId": 2,
+            	"tipo": "SAIDA",
+            	"quantidade": 3,
+            	"observacao": "Teste"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYxNDYzOSwiZXhwIjoxNzQ3NjIxODM5fQ.-TEIQeyvln60LDe2POGvgmNncSsx545iy1sC1Yrgtjc
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/movimentacao/6"
+        name: Delete Movimentacao
+        meta:
+          id: req_46cf77d8984e45789c4a7cc9d4b41718
+          created: 1747613643648
+          modified: 1747614887385
+          isPrivate: false
+          sortKey: -1747609836653.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYxNDYzOSwiZXhwIjoxNzQ3NjIxODM5fQ.-TEIQeyvln60LDe2POGvgmNncSsx545iy1sC1Yrgtjc
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/movimentacao"
+        name: Get All Movimentacao
+        meta:
+          id: req_1ccc548c147f484b8346ece300e71706
+          created: 1747614929456
+          modified: 1747614935202
+          isPrivate: false
+          sortKey: -1747609035075.75
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYxNDYzOSwiZXhwIjoxNzQ3NjIxODM5fQ.-TEIQeyvln60LDe2POGvgmNncSsx545iy1sC1Yrgtjc
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/movimentacao/5"
+        name: Get Movimentacao
+        meta:
+          id: req_bb88bfe9703e4ba5999ffd2c28cb4f4b
+          created: 1747615043118
+          modified: 1747615057892
+          isPrivate: false
+          sortKey: -1747608634286.875
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJyYW1zZXMubWFydGluc0BnbWFpbC5jb20iLCJ0aXBvIjoidXNlciIsImlhdCI6MTc0NzYxNDYzOSwiZXhwIjoxNzQ3NjIxODM5fQ.-TEIQeyvln60LDe2POGvgmNncSsx545iy1sC1Yrgtjc
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_86912dbbf747b2bf49c3fc4317d185b6c995970e
+    created: 1747269440994
+    modified: 1747269440994
+environments:
+  name: Base Environment
+  meta:
+    id: env_86912dbbf747b2bf49c3fc4317d185b6c995970e
+    created: 1747269440990
+    modified: 1747442822159
+    isPrivate: false
+  data:
+    base_url: localhost:3000
