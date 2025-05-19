@@ -28,8 +28,7 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 - NestJS (Node.js)
 - TypeORM
 - PostgreSQL
-- CORS
-- Swagger (Pocumentação da API)
+- Swagger (Documentação da API)
 
 ## 📊 Visualização Gráfica
 
@@ -48,12 +47,11 @@ Este projeto foi desenvolvido como uma atividade prática da faculdade, com os s
 ## 👨‍💻 Integrantes do Projeto
 
 - Ramsés de Oliveira Martins
-- Gustavo Müller
-- Isllan Toso
+- Gustavo Rash Müller
+- Isllan Toso Pereira
 
 ## 📌 Melhorias Futuras
 
-- Autenticação de usuários (JWT)
 - Filtro por categorias ou nomes
 - Geração de relatórios em PDF
 - Upload de imagem dos produtos
