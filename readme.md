@@ -19,10 +19,12 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 
 ### Frontend
 - Next.js
-- React.js
+- React
+- TypeScript
 - Axios
-- Chart.js ou Recharts (para gráficos)
 - TailwindCSS
+- Lucide React
+- Shadcn
 
 ### Backend
 - NestJS (Node.js)
@@ -46,9 +48,9 @@ Este projeto foi desenvolvido como uma atividade prática da faculdade, com os s
 
 ## 👨‍💻 Integrantes do Projeto
 
-- Ramsés de Oliveira Martins
-- Gustavo Rash Müller
+- Gustavo Raasch Müller
 - Isllan Toso Pereira
+- Ramsés de Oliveira Martins
 
 ## 📌 Melhorias Futuras
 
