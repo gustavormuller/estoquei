@@ -1,13 +1,10 @@
 "use client"
 
-import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -16,7 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { FornecedorService, Fornecedor } from "@/lib/services/fornecedor.service"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 interface SupplierDialogProps {
   children: React.ReactNode
@@ -26,51 +23,51 @@ interface SupplierDialogProps {
 
 export function SupplierDialog({ children, supplier, onSuccess }: SupplierDialogProps) {
   const [open, setOpen] = useState(false)
-  const [nome, setNome] = useState(supplier?.nome || "")
-  const [email, setEmail] = useState(supplier?.email || "")
-  const [telefone, setTelefone] = useState(supplier?.telefone || "")
-  const [endereco, setEndereco] = useState(supplier?.endereco || "")
-  const [isLoading, setIsLoading] = useState(false)
-  const { toast } = useToast()
+  const [loading, setLoading] = useState(false)
+  const [nome, setNome] = useState("")
+  const [empresa, setEmpresa] = useState("")
+  const [email, setEmail] = useState("")
+  const [telefone, setTelefone] = useState("")
+  const [endereco, setEndereco] = useState("")
   const fornecedorService = new FornecedorService()
 
-  const isEditing = !!supplier
+  useEffect(() => {
+    if (supplier) {
+      setNome(supplier.nome)
+      setEmpresa(supplier.empresa)
+      setEmail(supplier.email)
+      setTelefone(supplier.telefone)
+      setEndereco(supplier.endereco)
+    }
+  }, [supplier])
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
+    setLoading(true)
 
     try {
-      const data = { nome, email, telefone, endereco }
+      const data = {
+        nome,
+        empresa,
+        email,
+        telefone,
+        endereco,
+      }
 
-      if (isEditing && supplier) {
+      if (supplier) {
         await fornecedorService.update(supplier.id, data)
-        toast({
-          title: "Sucesso",
-          description: "Fornecedor atualizado com sucesso",
-        })
+        toast.success("Fornecedor atualizado com sucesso!")
       } else {
         await fornecedorService.create(data)
-        toast({
-          title: "Sucesso",
-          description: "Fornecedor criado com sucesso",
-        })
+        toast.success("Fornecedor cadastrado com sucesso!")
       }
+
       setOpen(false)
       onSuccess?.()
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 
-        (isEditing 
-          ? "Não foi possível atualizar o fornecedor"
-          : "Não foi possível criar o fornecedor")
-      
-      toast({
-        title: "Erro",
-        description: errorMessage,
-        variant: "destructive",
-      })
+      toast.error(error.response?.data?.message || "Erro ao salvar fornecedor")
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 
@@ -78,70 +75,61 @@ export function SupplierDialog({ children, supplier, onSuccess }: SupplierDialog
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <DialogHeader>
-            <DialogTitle>{isEditing ? "Editar Fornecedor" : "Novo Fornecedor"}</DialogTitle>
-            <DialogDescription>
-              {isEditing
-                ? "Edite os detalhes do fornecedor abaixo."
-                : "Preencha os detalhes para criar um novo fornecedor."}
-            </DialogDescription>
+            <DialogTitle>
+              {supplier ? "Editar Fornecedor" : "Novo Fornecedor"}
+            </DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="nome" className="text-right">
-                Nome
-              </Label>
-              <Input
-                id="nome"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                className="col-span-3"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="email" className="text-right">
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="col-span-3"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="telefone" className="text-right">
-                Telefone
-              </Label>
-              <Input
-                id="telefone"
-                value={telefone}
-                onChange={(e) => setTelefone(e.target.value)}
-                className="col-span-3"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="endereco" className="text-right">
-                Endereço
-              </Label>
-              <Textarea
-                id="endereco"
-                value={endereco}
-                onChange={(e) => setEndereco(e.target.value)}
-                className="col-span-3"
-              />
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="nome">Nome</Label>
+            <Input
+              id="nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
           </div>
-          <DialogFooter>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Salvando..." : isEditing ? "Salvar alterações" : "Criar fornecedor"}
-            </Button>
-          </DialogFooter>
+          <div className="space-y-2">
+            <Label htmlFor="empresa">Empresa</Label>
+            <Input
+              id="empresa"
+              value={empresa}
+              onChange={(e) => setEmpresa(e.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="telefone">Telefone</Label>
+            <Input
+              id="telefone"
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="endereco">Endereço</Label>
+            <Textarea
+              id="endereco"
+              value={endereco}
+              onChange={(e) => setEndereco(e.target.value)}
+              required
+            />
+          </div>
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Salvando..." : supplier ? "Atualizar" : "Cadastrar"}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

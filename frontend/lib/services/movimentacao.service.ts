@@ -1,38 +1,45 @@
 import { API_ROUTES } from '../api';
-import axios from '../axios';
+import api from '../axios';
 
 export interface Movimentacao {
   id: number;
   tipo: 'ENTRADA' | 'SAIDA';
   quantidade: number;
-  data: string;
+  data_criacao: string;
   produtoId: number;
   usuarioId: number;
+  observacao?: string;
 }
 
 export class MovimentacaoService {
   async getAll() {
-    const response = await axios.get(API_ROUTES.movimentacao.getAll);
+    const response = await api.get(API_ROUTES.movimentacao.getAll);
     return response.data;
   }
 
   async getOne(id: number) {
-    const response = await axios.get(API_ROUTES.movimentacao.getOne(id));
+    const response = await api.get(API_ROUTES.movimentacao.getOne(id));
     return response.data;
   }
 
-  async create(data: Omit<Movimentacao, 'id'>) {
-    const response = await axios.post(API_ROUTES.movimentacao.create, data);
+  async create(data: Omit<Movimentacao, 'id' | 'data_criacao' | 'usuarioId'>) {
+    const response = await api.post(API_ROUTES.movimentacao.create, {
+      ...data,
+      tipo: data.tipo.toUpperCase(),
+    });
     return response.data;
   }
 
   async update(id: number, data: Partial<Movimentacao>) {
-    const response = await axios.patch(API_ROUTES.movimentacao.update(id), data);
+    const response = await api.patch(API_ROUTES.movimentacao.update(id), {
+      ...data,
+      tipo: data.tipo?.toUpperCase(),
+    });
     return response.data;
   }
 
   async delete(id: number) {
-    const response = await axios.delete(API_ROUTES.movimentacao.delete(id));
+    const response = await api.delete(API_ROUTES.movimentacao.delete(id));
     return response.data;
   }
 } 

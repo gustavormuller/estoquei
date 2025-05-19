@@ -15,8 +15,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { MovimentoService, Movimento } from "@/lib/services/movimento.service"
-import { useToast } from "@/components/ui/use-toast"
+import { MovimentacaoService, Movimentacao } from "@/lib/services/movimentacao.service"
+import { toast } from "sonner"
 
 interface MovementDialogProps {
   children: React.ReactNode
@@ -33,37 +33,29 @@ export function MovementDialog({ children, product, type, onSuccess }: MovementD
   const [open, setOpen] = useState(false)
   const [quantidade, setQuantidade] = useState("")
   const [observacao, setObservacao] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const { toast } = useToast()
-  const movimentoService = new MovimentoService()
+  const [loading, setLoading] = useState(false)
+  const movimentacaoService = new MovimentacaoService()
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
+    setLoading(true)
 
     try {
       const data = {
         produtoId: product.id,
-        tipo: type,
+        tipo: type.toUpperCase() as "ENTRADA" | "SAIDA",
         quantidade: parseInt(quantidade),
         observacao,
       }
 
-      await movimentoService.create(data)
-      toast({
-        title: "Sucesso",
-        description: `Movimento de ${type === "entrada" ? "entrada" : "saída"} registrado com sucesso`,
-      })
+      await movimentacaoService.create(data)
+      toast.success(`Movimento de ${type === "entrada" ? "entrada" : "saída"} registrado com sucesso`)
       setOpen(false)
       onSuccess?.()
-    } catch (error) {
-      toast({
-        title: "Erro",
-        description: `Não foi possível registrar o movimento de ${type === "entrada" ? "entrada" : "saída"}`,
-        variant: "destructive",
-      })
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || `Erro ao registrar movimento de ${type === "entrada" ? "entrada" : "saída"}`)
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 
@@ -122,8 +114,8 @@ export function MovementDialog({ children, product, type, onSuccess }: MovementD
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading
+            <Button type="submit" disabled={loading}>
+              {loading
                 ? "Registrando..."
                 : type === "entrada"
                 ? "Registrar entrada"

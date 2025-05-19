@@ -1,6 +1,6 @@
 import axios from '../axios';
-import Cookies from 'js-cookie';
 import { API_ROUTES } from '../api';
+import { setToken, getToken, removeToken, isAuthenticated } from '../auth';
 
 export interface LoginDto {
   email: string;
@@ -9,19 +9,21 @@ export interface LoginDto {
 
 export interface AuthResponse {
   statusCode: number;
+  code?: number;
   message: string;
   token?: string;
 }
 
 export class AuthService {
-  private readonly TOKEN_KEY = "token";
-
   async login(loginDto: LoginDto): Promise<AuthResponse> {
     try {
       const response = await axios.post<AuthResponse>(
         API_ROUTES.auth.login,
         loginDto
       );
+      if (response.data.token) {
+        setToken(response.data.token);
+      }
       return response.data;
     } catch (error: any) {
       return error.response?.data || {
@@ -49,19 +51,8 @@ export class AuthService {
     }
   }
 
-  setToken(token: string) {
-    Cookies.set(this.TOKEN_KEY, token, { expires: 7 }); // Expira em 7 dias
-  }
-
-  getToken(): string | undefined {
-    return Cookies.get(this.TOKEN_KEY);
-  }
-
-  removeToken() {
-    Cookies.remove(this.TOKEN_KEY);
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.getToken();
-  }
+  getToken = getToken;
+  setToken = setToken;
+  removeToken = removeToken;
+  isAuthenticated = isAuthenticated;
 } 

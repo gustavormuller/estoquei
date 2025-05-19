@@ -3,14 +3,14 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { DashboardLayout } from "@/components/dashboard-layout"
+import { ClientLayout } from "@/components/client-layout"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Sistema de Gerenciamento de Estoque",
-  description: "Dashboard para gerenciamento de estoque, produtos, categorias e fornecedores",
-    generator: 'v0.dev'
+  title: "Estoquei",
+  description: "Sistema de gerenciamento de estoque",
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light">
-          <DashboardLayout>{children}</DashboardLayout>
+          <ClientLayout>{children}</ClientLayout>
         </ThemeProvider>
       </body>
     </html>

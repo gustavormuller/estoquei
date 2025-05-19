@@ -4,9 +4,10 @@ import axios from '../axios';
 export interface Fornecedor {
   id: number;
   nome: string;
+  empresa: string;
   email: string;
   telefone: string;
-  endereco?: string;
+  endereco: string;
 }
 
 export class FornecedorService {

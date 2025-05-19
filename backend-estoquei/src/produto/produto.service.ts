@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
-import { Repository } from 'typeorm';
+import { Repository, IsNull } from 'typeorm';
 import { Produto } from './entities/produto.entity';
 
 @Injectable()
@@ -30,7 +30,10 @@ export class ProdutoService {
 
   async findAll() {
     try {
-      const produtos = await this.produtoRepository.find();
+      const produtos = await this.produtoRepository.find({
+        where: { deleted_at: IsNull() },
+        relations: ['categoria', 'fornecedor']
+      });
       return produtos;
     } catch (error) {
       console.error(error);
@@ -44,7 +47,10 @@ export class ProdutoService {
 
   async findOne(id: number) {
     try {
-      const produto = await this.produtoRepository.findOne({ where: { id } });
+      const produto = await this.produtoRepository.findOne({ 
+        where: { id, deleted_at: IsNull() },
+        relations: ['categoria', 'fornecedor']
+      });
       if (!produto) {
         return { statusCode: 404, message: 'Produto não encontrado' };
       }
@@ -61,7 +67,10 @@ export class ProdutoService {
 
   async update(id: number, updateProdutoDto: UpdateProdutoDto) {
     try {
-      const result = await this.produtoRepository.update({id: id}, updateProdutoDto);
+      const result = await this.produtoRepository.update(
+        { id, deleted_at: IsNull() },
+        updateProdutoDto
+      );
       if (result.affected === 0) {
         return { statusCode: 404, message: 'Produto não encontrado para atualização' };
       }
@@ -78,11 +87,14 @@ export class ProdutoService {
 
   async updateQuantidade(id: number, quantidade: number) {
     try {
-      const result = await this.produtoRepository.update({id: id}, {quantidade: quantidade});
+      const result = await this.produtoRepository.update(
+        { id, deleted_at: IsNull() },
+        { quantidade: quantidade }
+      );
       if (result.affected === 0) {
         return { statusCode: 404, message: 'Produto não encontrado para atualização' };
       }
-      return { statusCode: 200, message: 'Qauntidade do produto atualizado com sucesso' };
+      return { statusCode: 200, message: 'Quantidade do produto atualizada com sucesso' };
     } catch (error) {
       console.error(error);
       return {
@@ -95,7 +107,10 @@ export class ProdutoService {
 
   async remove(id: number) {
     try {
-      const result = await this.produtoRepository.delete(id);
+      const result = await this.produtoRepository.update(
+        { id, deleted_at: IsNull() },
+        { deleted_at: new Date() }
+      );
       if (result.affected === 0) {
         return { statusCode: 404, message: 'Produto não encontrado para remoção' };
       }

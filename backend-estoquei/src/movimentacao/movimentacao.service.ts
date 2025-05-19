@@ -15,7 +15,13 @@ export class MovimentacaoService {
 
   async create(createMovimentacaoDto: CreateMovimentacaoDto, idUser: number) {
     try {
-      await this.MovimentacaoRepository.save({...createMovimentacaoDto, usuarioId: idUser});
+      const movimentacao = {
+        ...createMovimentacaoDto,
+        usuarioId: idUser,
+        data_criacao: new Date()
+      };
+      
+      await this.MovimentacaoRepository.save(movimentacao);
       const result = await this.produtoService.findOne(createMovimentacaoDto.produtoId);
       const produto = result as Produto
       const qtdFinal = createMovimentacaoDto.tipo === 'ENTRADA' ? produto.quantidade + createMovimentacaoDto.quantidade : produto.quantidade - createMovimentacaoDto.quantidade

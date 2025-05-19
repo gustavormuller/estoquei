@@ -3,7 +3,7 @@
 **Estoquei** é uma aplicação web simples de controle de estoque, desenvolvida como projeto acadêmico. Ela permite o gerenciamento de produtos de forma eficiente, com visualizações em lista e gráficos interativos.
 
 Este projeto foi desenvolvido com as seguintes tecnologias:
-- **Frontend:** React.js
+- **Frontend:** Next.js
 - **Backend:** NestJS
 - **Banco de Dados:** PostgreSQL
 
@@ -18,11 +18,11 @@ Este projeto foi desenvolvido com as seguintes tecnologias:
 ## 🧰 Tecnologias Utilizadas
 
 ### Frontend
+- Next.js
 - React.js
 - Axios
-- React Router DOM
 - Chart.js ou Recharts (para gráficos)
-- TailwindCSS ou Bootstrap. 
+- TailwindCSS
 
 ### Backend
 - NestJS (Node.js)

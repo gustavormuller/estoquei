@@ -56,6 +56,7 @@ export default function SuppliersPage() {
 
   const filteredSuppliers = suppliers.filter(supplier =>
     supplier.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    supplier.empresa.toLowerCase().includes(searchTerm.toLowerCase()) ||
     supplier.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     supplier.telefone.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -95,6 +96,7 @@ export default function SuppliersPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Nome</TableHead>
+                  <TableHead>Empresa</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Telefone</TableHead>
                   <TableHead>Endereço</TableHead>
@@ -104,16 +106,17 @@ export default function SuppliersPage() {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center">Carregando...</TableCell>
+                    <TableCell colSpan={6} className="text-center">Carregando...</TableCell>
                   </TableRow>
                 ) : filteredSuppliers.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center">Nenhum fornecedor encontrado</TableCell>
+                    <TableCell colSpan={6} className="text-center">Nenhum fornecedor encontrado</TableCell>
                   </TableRow>
                 ) : (
                   filteredSuppliers.map((supplier) => (
                     <TableRow key={supplier.id}>
                       <TableCell className="font-medium">{supplier.nome}</TableCell>
+                      <TableCell>{supplier.empresa}</TableCell>
                       <TableCell>{supplier.email}</TableCell>
                       <TableCell>{supplier.telefone}</TableCell>
                       <TableCell>{supplier.endereco}</TableCell>

@@ -14,48 +14,37 @@ import {
 import { ProductDialog } from "@/components/product-dialog"
 import { MovementDialog } from "@/components/movement-dialog"
 import { ProdutoService, Produto } from "@/lib/services/produto.service"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Pencil, Trash2, ArrowUpCircle, ArrowDownCircle } from "lucide-react"
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Produto[]>([])
+  const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
-  const { toast } = useToast()
   const produtoService = new ProdutoService()
 
-  async function loadProducts() {
+  const loadProducts = async () => {
     try {
-      setIsLoading(true)
       const data = await produtoService.getAll()
       setProducts(data)
-    } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Não foi possível carregar os produtos",
-        variant: "destructive",
-      })
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Erro ao carregar produtos")
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 
-  async function handleDelete(id: number) {
-    if (!confirm("Tem certeza que deseja excluir este produto?")) return
+  const handleDelete = async (id: number) => {
+    if (!confirm("Tem certeza que deseja excluir este produto?")) {
+      return
+    }
 
     try {
       await produtoService.delete(id)
-      toast({
-        title: "Sucesso",
-        description: "Produto excluído com sucesso",
-      })
+      toast.success("Produto excluído com sucesso!")
       loadProducts()
-    } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Não foi possível excluir o produto",
-        variant: "destructive",
-      })
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Erro ao excluir produto")
     }
   }
 
@@ -99,7 +88,7 @@ export default function ProductsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading ? (
+            {loading ? (
               <TableRow>
                 <TableCell colSpan={7} className="text-center">
                   Carregando...
@@ -116,7 +105,7 @@ export default function ProductsPage() {
                 <TableRow key={product.id}>
                   <TableCell>{product.nome}</TableCell>
                   <TableCell>{product.descricao}</TableCell>
-                  <TableCell>R$ {product.preco.toFixed(2)}</TableCell>
+                  <TableCell>R$ {Number(product.preco).toFixed(2)}</TableCell>
                   <TableCell>{product.quantidade}</TableCell>
                   <TableCell>{product.categoria?.nome}</TableCell>
                   <TableCell>{product.fornecedor?.nome}</TableCell>

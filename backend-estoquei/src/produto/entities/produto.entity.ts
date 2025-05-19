@@ -8,7 +8,7 @@ export class Produto {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column()
   nome: string;
 
   @Column({nullable: true})
@@ -33,5 +33,8 @@ export class Produto {
 
   @OneToMany(() => Movimentacao, (movimentacao) => movimentacao.produtoId)
   movimentacao: Movimentacao[];
+
+  @Column({ nullable: true })
+  deleted_at: Date;
 }
 

@@ -1,58 +1,97 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Search, ArrowUpCircle, ArrowDownCircle, Calendar } from "lucide-react"
+"use client"
 
-const movements = [
-  {
-    id: 1,
-    date: "2023-05-01",
-    product: 'Monitor LED 24"',
-    type: "entrada",
-    quantity: 5,
-    user: "Ana Silva",
-    notes: "Reposição de estoque",
-  },
-  {
-    id: 2,
-    date: "2023-05-02",
-    product: "Teclado Mecânico",
-    type: "saida",
-    quantity: 2,
-    user: "Carlos Oliveira",
-    notes: "Venda para cliente",
-  },
-  {
-    id: 3,
-    date: "2023-05-03",
-    product: "Mouse Sem Fio",
-    type: "saida",
-    quantity: 3,
-    user: "Mariana Santos",
-    notes: "Venda para cliente",
-  },
-  {
-    id: 4,
-    date: "2023-05-04",
-    product: "SSD 500GB",
-    type: "entrada",
-    quantity: 10,
-    user: "Rafael Costa",
-    notes: "Compra de fornecedor",
-  },
-  {
-    id: 5,
-    date: "2023-05-05",
-    product: "Headset Gamer",
-    type: "saida",
-    quantity: 1,
-    user: "Juliana Lima",
-    notes: "Venda para cliente",
-  },
-]
+import { useState, useEffect } from "react"
+import { Input } from "@/components/ui/input"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { MovimentacaoService, Movimentacao } from "@/lib/services/movimentacao.service"
+import { ProdutoService, Produto } from "@/lib/services/produto.service"
+import { toast } from "sonner"
+import { ArrowUpCircle, ArrowDownCircle, Search, Calendar } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { usePathname } from "next/navigation"
 
 export default function MovementsPage() {
+  const [movements, setMovements] = useState<Movimentacao[]>([])
+  const [products, setProducts] = useState<Produto[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [typeFilter, setTypeFilter] = useState<"ENTRADA" | "SAIDA" | "">("")
+  const [dateFilter, setDateFilter] = useState("")
+  const [loading, setLoading] = useState(true)
+  const movimentacaoService = new MovimentacaoService()
+  const produtoService = new ProdutoService()
+  const pathname = usePathname()
+
+  async function loadMovements() {
+    try {
+      setLoading(true)
+      const data = await movimentacaoService.getAll()
+      // Sort movements by date in descending order (most recent first)
+      const sortedData = data.sort((a: Movimentacao, b: Movimentacao) => 
+        new Date(b.data_criacao).getTime() - new Date(a.data_criacao).getTime()
+      )
+      setMovements(sortedData)
+    } catch (error) {
+      toast.error("Não foi possível carregar os movimentos")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function loadProducts() {
+    try {
+      // Get all products including soft-deleted ones
+      const data = await produtoService.getAll()
+      setProducts(data)
+    } catch (error) {
+      toast.error("Não foi possível carregar os produtos")
+    }
+  }
+
+  useEffect(() => {
+    loadMovements()
+    loadProducts()
+  }, [pathname])
+
+  const getProductName = (productId: number) => {
+    const product = products.find(p => p.id === productId)
+    return product?.nome || "Produto não encontrado"
+  }
+
+  const formatDate = (dateString: string) => {
+    try {
+      const date = new Date(dateString)
+      if (isNaN(date.getTime())) {
+        return "Data inválida"
+      }
+      return date.toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      })
+    } catch (error) {
+      return "Data inválida"
+    }
+  }
+
+  const filteredMovements = movements.filter((movement) => {
+    const productName = getProductName(movement.produtoId).toLowerCase()
+    const matchesSearch = productName.includes(searchTerm.toLowerCase()) ||
+                         movement.observacao?.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesType = !typeFilter || movement.tipo === typeFilter
+    const matchesDate = !dateFilter || movement.data_criacao.startsWith(dateFilter)
+    return matchesSearch && matchesType && matchesDate
+  })
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -67,17 +106,32 @@ export default function MovementsPage() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
             <div className="relative w-full max-w-sm">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input type="search" placeholder="Buscar movimentações..." className="pl-8" />
+              <Input
+                type="search"
+                placeholder="Buscar por produto ou observação..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8"
+              />
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <select className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm">
+              <select 
+                className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value as "ENTRADA" | "SAIDA" | "")}
+              >
                 <option value="">Todos os tipos</option>
-                <option value="entrada">Entradas</option>
-                <option value="saida">Saídas</option>
+                <option value="ENTRADA">Entradas</option>
+                <option value="SAIDA">Saídas</option>
               </select>
               <div className="flex items-center gap-2 h-10 rounded-md border border-input bg-background px-3 py-2">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
-                <Input type="date" className="border-0 p-0 shadow-none focus-visible:ring-0" />
+                <Input
+                  type="date"
+                  value={dateFilter}
+                  onChange={(e) => setDateFilter(e.target.value)}
+                  className="border-0 p-0 shadow-none focus-visible:ring-0"
+                />
               </div>
             </div>
           </div>
@@ -90,33 +144,49 @@ export default function MovementsPage() {
                   <TableHead>Produto</TableHead>
                   <TableHead>Tipo</TableHead>
                   <TableHead>Quantidade</TableHead>
-                  <TableHead className="hidden md:table-cell">Usuário</TableHead>
-                  <TableHead className="hidden md:table-cell">Observações</TableHead>
+                  <TableHead>Observação</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {movements.map((movement) => (
-                  <TableRow key={movement.id}>
-                    <TableCell>{new Date(movement.date).toLocaleDateString("pt-BR")}</TableCell>
-                    <TableCell className="font-medium">{movement.product}</TableCell>
-                    <TableCell>
-                      {movement.type === "entrada" ? (
-                        <Badge className="bg-[#10B981] flex items-center gap-1 w-fit">
-                          <ArrowUpCircle className="h-3 w-3" />
-                          Entrada
-                        </Badge>
-                      ) : (
-                        <Badge className="bg-[#F59E0B] flex items-center gap-1 w-fit">
-                          <ArrowDownCircle className="h-3 w-3" />
-                          Saída
-                        </Badge>
-                      )}
+                {loading ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center">
+                      Carregando...
                     </TableCell>
-                    <TableCell>{movement.quantity}</TableCell>
-                    <TableCell className="hidden md:table-cell">{movement.user}</TableCell>
-                    <TableCell className="hidden md:table-cell">{movement.notes}</TableCell>
                   </TableRow>
-                ))}
+                ) : filteredMovements.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center">
+                      Nenhum movimento encontrado
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredMovements.map((movement) => (
+                    <TableRow key={movement.id}>
+                      <TableCell>
+                        {formatDate(movement.data_criacao)}
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {getProductName(movement.produtoId)}
+                      </TableCell>
+                      <TableCell>
+                        {movement.tipo === "ENTRADA" ? (
+                          <Badge className="bg-[#10B981] flex items-center gap-1 w-fit">
+                            <ArrowUpCircle className="h-3 w-3" />
+                            Entrada
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-[#F59E0B] flex items-center gap-1 w-fit">
+                            <ArrowDownCircle className="h-3 w-3" />
+                            Saída
+                          </Badge>
+                        )}
+                      </TableCell>
+                      <TableCell>{movement.quantidade}</TableCell>
+                      <TableCell>{movement.observacao}</TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>

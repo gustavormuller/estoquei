@@ -2,30 +2,52 @@
 
 import { useEffect, useState } from "react"
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Movimentacao } from "@/lib/services/movimentacao.service"
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 
-const data = [
-  { name: "01/05", entradas: 12, saidas: 8 },
-  { name: "02/05", entradas: 19, saidas: 14 },
-  { name: "03/05", entradas: 5, saidas: 10 },
-  { name: "04/05", entradas: 8, saidas: 7 },
-  { name: "05/05", entradas: 15, saidas: 12 },
-  { name: "06/05", entradas: 6, saidas: 9 },
-  { name: "07/05", entradas: 11, saidas: 8 },
-  { name: "08/05", entradas: 14, saidas: 11 },
-  { name: "09/05", entradas: 9, saidas: 7 },
-  { name: "10/05", entradas: 7, saidas: 5 },
-  { name: "11/05", entradas: 13, saidas: 9 },
-  { name: "12/05", entradas: 10, saidas: 8 },
-  { name: "13/05", entradas: 8, saidas: 6 },
-  { name: "14/05", entradas: 12, saidas: 10 },
-]
+interface InventoryChartProps {
+  movimentacoes: Movimentacao[]
+}
 
-export function InventoryChart() {
+export function InventoryChart({ movimentacoes }: InventoryChartProps) {
   const [isMounted, setIsMounted] = useState(false)
+  const [chartData, setChartData] = useState<any[]>([])
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  useEffect(() => {
+    if (movimentacoes.length > 0) {
+      // Agrupar movimentações por data
+      const movimentacoesPorData = movimentacoes.reduce((acc: any, mov) => {
+        const data = format(new Date(mov.data_criacao), 'dd/MM', { locale: ptBR })
+        
+        if (!acc[data]) {
+          acc[data] = { name: data, entradas: 0, saidas: 0 }
+        }
+
+        if (mov.tipo === 'ENTRADA') {
+          acc[data].entradas += mov.quantidade
+        } else {
+          acc[data].saidas += mov.quantidade
+        }
+
+        return acc
+      }, {})
+
+      // Converter para array e ordenar por data
+      const dados = Object.values(movimentacoesPorData).sort((a: any, b: any) => {
+        const [diaA, mesA] = a.name.split('/')
+        const [diaB, mesB] = b.name.split('/')
+        return new Date(2024, parseInt(mesA) - 1, parseInt(diaA)).getTime() - 
+               new Date(2024, parseInt(mesB) - 1, parseInt(diaB)).getTime()
+      })
+
+      setChartData(dados)
+    }
+  }, [movimentacoes])
 
   if (!isMounted) {
     return null
@@ -33,7 +55,7 @@ export function InventoryChart() {
 
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data}>
+      <BarChart data={chartData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />

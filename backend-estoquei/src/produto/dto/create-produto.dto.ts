@@ -22,4 +22,8 @@ export class CreateProdutoDto {
   @ApiProperty({ description: 'ID do fornecedor' })
   @IsInt() 
   fornecedorId: number;
+
+  @ApiProperty({ description: 'ID da categoria' })
+  @IsInt()
+  categoriaId: number;
 }

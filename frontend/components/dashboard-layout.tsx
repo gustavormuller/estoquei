@@ -1,11 +1,10 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { BarChart3, Users, Package, Tag, Truck, ArrowRightLeft, LogOut, Menu, X, Bell } from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
+import { BarChart3, Package, Tag, Truck, ArrowRightLeft, LogOut, Menu, X, Bell } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -13,14 +12,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { AuthService } from "@/lib/services/auth.service"
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: BarChart3 },
-  { name: "Usuários", href: "/usuarios", icon: Users },
   { name: "Produtos", href: "/produtos", icon: Package },
   { name: "Categorias", href: "/categorias", icon: Tag },
   { name: "Fornecedores", href: "/fornecedores", icon: Truck },
@@ -29,7 +26,32 @@ const navigation = [
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const authService = new AuthService()
+
+  useEffect(() => {
+    setMounted(true)
+    if (!authService.isAuthenticated()) {
+      router.push('/login')
+    }
+  }, [router])
+
+  const handleLogout = () => {
+    authService.removeToken()
+    router.push('/login')
+  }
+
+  // Don't render anything until after mounting to prevent hydration mismatch
+  if (!mounted) {
+    return null
+  }
+
+  // After mounting, check authentication
+  if (!authService.isAuthenticated()) {
+    return null
+  }
 
   return (
     <div className="flex h-screen bg-[#F9FAFB]">
@@ -71,7 +93,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col border-r border-gray-200 bg-white">
           <div className="flex h-16 items-center px-4 border-b">
-            <h1 className="text-xl font-bold text-[#1D4ED8]">EstoqueSystem</h1>
+            <h1 className="text-xl font-bold text-[#1D4ED8]">Estoquei</h1>
           </div>
           <nav className="flex flex-col gap-1 p-4 flex-1">
             {navigation.map((item) => (
@@ -115,12 +137,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Perfil</DropdownMenuItem>
-                <DropdownMenuItem>Configurações</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Sair</span>
                 </DropdownMenuItem>
