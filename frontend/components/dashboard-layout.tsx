@@ -91,9 +91,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex flex-col border-r border-gray-200 bg-white">
+        <div className="flex flex-col h-screen border-r border-gray-200 bg-white">
           <div className="flex h-16 items-center px-4 border-b">
-            <h1 className="text-xl font-bold text-[#1D4ED8]">Estoquei</h1>
+            <h1 className="text-xl font-bold text-[#1D4ED8]">Estoquei📦</h1>
           </div>
           <nav className="flex flex-col gap-1 p-4 flex-1">
             {navigation.map((item) => (
